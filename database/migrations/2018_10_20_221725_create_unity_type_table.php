@@ -15,7 +15,7 @@ class CreateUnityTypeTable extends Migration
     {
         Schema::create('unity_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('string');
+            $table->string('name');
             $table->timestamps();
         });
     }

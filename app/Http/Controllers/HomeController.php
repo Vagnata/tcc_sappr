@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Announcement;
+use App\AnnouncementStatus;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use function Psy\debug;
 
 class HomeController extends Controller
 {
@@ -11,6 +15,8 @@ class HomeController extends Controller
      *
      * @return void
      */
+    private $announcement;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -23,6 +29,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $announcements = Announcement::all()
+            ->where('announcement_status_id', AnnouncementStatus::ACTIVE);
+
+
+        return view('home')->with('announcements', $announcements);
     }
 }
