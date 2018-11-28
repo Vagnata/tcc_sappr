@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Announcement;
-use App\AnnouncementStatus;
+use App\Domain\Models\AnnouncementStatus;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use function Psy\debug;
+use App\Domain\Repositories\AnnouncementRepository;
 
 class HomeController extends Controller
 {
@@ -17,9 +17,12 @@ class HomeController extends Controller
      */
     private $announcement;
 
+    private $announcementRepository;
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->announcementRepository = new AnnouncementRepository();
     }
 
     /**
@@ -29,9 +32,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $announcements = Announcement::all()
-            ->where('announcement_status_id', AnnouncementStatus::ACTIVE);
-
+        $filter['announcement_status_id'] =  AnnouncementStatus::ACTIVE;
+        $announcements = $this->announcementRepository->findBy($filter);
 
         return view('home')->with('announcements', $announcements);
     }
