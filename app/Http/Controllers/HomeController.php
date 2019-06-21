@@ -2,32 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\Models\AnnouncementStatus;
-use Carbon\Carbon;
+use App\Domain\Services\AnnouncementService;
 use Illuminate\Http\Request;
-use function Psy\debug;
-use App\Domain\Repositories\AnnouncementRepository;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    private $announcement;
-
-    private $announcementRepository;
+    private $announcementService;
 
     public function __construct()
     {
-        //$this->middleware('auth');
-        $this->announcementRepository = new AnnouncementRepository();
+        $this->announcementService = new AnnouncementService();
     }
 
-    public function welcome(){
-        $filter['announcement_status_id'] =  AnnouncementStatus::ACTIVE;
-        $announcements = $this->announcementRepository->findAll($filter);
+    public function welcome(Request $request)
+    {
+        $announcements = $this->announcementService->findBy($request->all());
 
         return view('welcome')->with('announcements', $announcements);
     }

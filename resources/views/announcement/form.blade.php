@@ -1,6 +1,6 @@
-@extends('layouts/sappr_base')
+@extends('layouts/sappr')
 
-@section('base-content')
+@section('content')
     <div class="container">
         <div class="py-5 text-center">
             <h2>Cadastre-se</h2>
@@ -9,7 +9,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <form class="form-signin" action="{{ url('register') }}" method="post">
+                <form class="form-signin" action="{{ url('store-announcement') }}" method="post">
                     {!! csrf_field() !!}
 
                     <div class="mb-3">

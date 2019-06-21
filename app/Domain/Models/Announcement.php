@@ -2,6 +2,7 @@
 
 namespace App\Domain\Models;
 
+use App\Product;
 use Illuminate\Database\Eloquent\Model;
 
 class Announcement extends Model
@@ -16,5 +17,10 @@ class Announcement extends Model
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

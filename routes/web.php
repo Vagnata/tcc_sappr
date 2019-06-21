@@ -24,6 +24,12 @@ Route::get('/acessar', 'UserController@showLogin')->name('show-login');
 Route::get('/registrar', 'UserController@showRegister')->name('show-register');
 #Route::get('/login', 'UserController@login')->name('login');
 
+#Anúncios
+Route::get('/anuncios/meus-anuncios', 'AnnouncementController@list')->name('my-announcements');
+Route::get('/anuncios/registro', 'AnnouncementController@showForm')->name('form-announcement');
+Route::get('/anuncios/registro/{id}', 'AnnouncementController@showForm')->name('form-announcement-edit');
+Route::post('/anuncios/salvar', 'AnnouncementController@store')->name('store-announcement');
+Route::post('/anuncios/salvar/{id}', 'AnnouncementController@store')->name('store-announcement-edit');
 
 
 Route::get('/home', 'HomeController@index')->name('home');

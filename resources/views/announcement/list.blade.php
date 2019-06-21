@@ -6,28 +6,47 @@
 
 @section('content')
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        @guest
-            <h1 class="display-4">Bem-vindo</h1>
-        @else
-            <h1 class="display-4">Bem-vindo {{\Illuminate\Support\Facades\Auth::user()['name']}}</h1>
-        @endguest
+        <p class="display-4">Meus anúncios</p>
         <p class="lead">Pesquise por produtos e ofertas.</p>
-        <form class="form-signin" action="{{ route('welcome') }}" method="get">
-            <div class="input-group">
-                <input type="text" class="form-control" id="search" placeholder="">
-                <div class="input-group-append">
+        <form class="form-signin form-group" action="{{ route('welcome') }}" method="get">
+
+
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="data_criacao">Data Criação</label>
+                        <input name="data_criacao" type="date" class="form-control" id="data_criacao"
+                               value="{{ old('data_criacao') }}"
+                               required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="tipo_retirada">Tipo Retirada</label>
+                        <select name="tipo_retirada" class="form-control">
+                            <option value="">Selecione</option>
+                            <option value="0">Entrega</option>
+                            <option value="1">Local</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div>
                     <button class="btn btn-primary">Buscar</button>
+                    <button type="button" class="btn btn-success"><a style="text-decoration: none; color: white;" href="{{route('form-announcement')}}">+ Cadastrar</a></button>
                 </div>
             </div>
         </form>
     </div>
 
-    <div class="container">
         @if(!count($announcements))
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
-                    <h4 style="text-align: center">Nenhum produto disponível no momento. Tente outra busca ou acesse mais tarde.</h4>
+                    <h4 style="text-align: center">Você não possui nenhum anúncio ativo no momento, gostaria de realizar
+                        um?</h4>
                 </div>
             </div>
         @else
@@ -88,5 +107,4 @@
                 </div>
             </div>
         @endif
-    </div>
 @stop
