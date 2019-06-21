@@ -8,11 +8,11 @@ use App\Domain\Models\AnnouncementStatus;
 class AnnouncementRepository extends RepositoryAbstract
 {
 	protected $model = Announcement::class;
-	
-	public function findBy(array $filter)
-	{
-		return $this->createModel()
-            ->where('announcement_status_id', AnnouncementStatus::ACTIVE)
-            ->get();
-	}
+//
+//	public function findBy(array $filter)
+//	{
+//		return $this->createModel()
+//            ->where('announcement_status_id', AnnouncementStatus::ACTIVE)
+//            ->get();
+//	}
 }

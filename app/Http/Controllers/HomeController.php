@@ -33,7 +33,7 @@ class HomeController extends Controller
     public function index()
     {
         $filter['announcement_status_id'] =  AnnouncementStatus::ACTIVE;
-        $announcements = $this->announcementRepository->findBy($filter);
+        $announcements = $this->announcementRepository->findAll($filter);
 
         return view('home')->with('announcements', $announcements);
     }

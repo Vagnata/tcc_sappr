@@ -1,5 +1,7 @@
 <?php
 
+use App\Domain\Models\UserStatus;
+use App\Domain\Models\UserType;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -47,8 +49,8 @@ class DatabaseSeeder extends Seeder
             'name'           => 'Admin',
             'email'          => 'admin@admin.com',
             'password'       => bcrypt('admin'),
-            'user_type_id'   => \App\UserType::ADMINISTRATOR,
-            'user_status_id' => \App\UserStatus::ACTIVE,
+            'user_type_id'   => UserType::ADMINISTRATOR,
+            'user_status_id' => UserStatus::ACTIVE,
             'created_at'     => Carbon::create(),
             'updated_at'     => Carbon::create()
         ]);

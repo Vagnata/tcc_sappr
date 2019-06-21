@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Domain\Models\User;
+use App\Domain\Models\UserStatus;
+use App\Domain\Models\UserType;
 use App\Http\Controllers\Controller;
-use App\UserStatus;
-use App\UserType;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
