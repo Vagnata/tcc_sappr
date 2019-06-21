@@ -70,8 +70,8 @@
                     <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
-                            <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Cadastrar</button>
-                            <a href="{{route('welcome')}}" style="text-decoration: none">
+                            <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Salvar</button>
+                            <a href="{{route('my-announcements')}}" style="text-decoration: none">
                                 <button type="button" class="btn btn-lg btn-secondary btn-block">Voltar</button>
                             </a>
                         </div>
