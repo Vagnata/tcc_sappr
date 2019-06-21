@@ -11,10 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
+
+Route::get('/', 'HomeController@welcome')->name('welcome');
+
+
+#Usuário
+#Route::post('/sair','UserController@logout')->name('logout');
+Route::get('/acessar', 'UserController@showLogin')->name('show-login');
+Route::get('/registrar', 'UserController@showRegister')->name('show-register');
+#Route::get('/login', 'UserController@login')->name('login');
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');

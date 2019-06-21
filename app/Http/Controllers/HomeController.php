@@ -21,20 +21,14 @@ class HomeController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
         $this->announcementRepository = new AnnouncementRepository();
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+    public function welcome(){
         $filter['announcement_status_id'] =  AnnouncementStatus::ACTIVE;
         $announcements = $this->announcementRepository->findAll($filter);
 
-        return view('home')->with('announcements', $announcements);
+        return view('welcome')->with('announcements', $announcements);
     }
 }
