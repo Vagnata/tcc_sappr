@@ -31,5 +31,7 @@ Route::get('/anuncios/registro/{id}', 'AnnouncementController@showForm')->name('
 Route::post('/anuncios/salvar', 'AnnouncementController@store')->name('store-announcement');
 Route::post('/anuncios/salvar/{id}', 'AnnouncementController@store')->name('store-announcement-edit');
 
+#Produtos
+Route::get('/anuncios/meus-anuncios', 'ProductController@list')->name('products');
 
 Route::get('/home', 'HomeController@index')->name('home');

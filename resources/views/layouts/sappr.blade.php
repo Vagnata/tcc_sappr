@@ -10,6 +10,11 @@
             </nav>
             <a class="btn btn-outline-primary" href="{{ route('show-login') }}">Acessar</a>
         @else
+			@if (User::isAdmin())
+				 <nav class="my-2 my-md-0 mr-md-3">
+                <a class="p-2 text-dark" href="{{route('products')}}">Produtos</a>
+            </nav>
+			@endif
             <nav class="my-2 my-md-0 mr-md-3">
                 <a class="p-2 text-dark" href="{{route('my-announcements')}}">Meus anúncios</a>
             </nav>

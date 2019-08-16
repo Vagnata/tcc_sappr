@@ -13,20 +13,26 @@
                     {!! csrf_field() !!}
 
                     <div class="mb-3">
-                        <div class="row">
-                            <div class="col-md-2"></div>
+                        <div class="row">                     
                             <div class="col-md-4">
                                 <label for="name">Nome</label>
                                 <input name="name" type="text" class="form-control" id="name" placeholder="Nome"
                                        value="{{ old('name') }}"
                                        required>
                             </div>
+							
+							<div class="col-md-4">
+                                <label for="name">Produto</label>
+                                <input name="product_id" type="text" class="form-control" id="product_id" placeholder="Produto"
+                                       value="{{ old('name') }}"
+                                       required>
+                            </div>
 
                             <div class="col-md-4">
-                                <label for="email">Email</label>
+                                <label for="email">Preço</label>
                                 <div class="input-group">
-                                    <input name='email' type="email" class="form-control" id="email" placeholder="Email"
-                                           value="{{old('email')}}"
+                                    <input name='price' type="number" class="form-control" id="price" placeholder="Preço/Unidade" step="0.1"
+                                           value="{{old('price')}}"
                                            required>
                                 </div>
                             </div>
