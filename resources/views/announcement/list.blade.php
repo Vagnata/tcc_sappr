@@ -7,7 +7,7 @@
 @section('content')
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <p class="display-4">Meus anúncios</p>
-        <p class="lead">Pesquise por produtos e ofertas.</p>
+        <p class="lead">~~~~~~</p>
         <form class="form-signin form-group" action="{{ route('welcome') }}" method="get">
 
 
