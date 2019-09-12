@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
 Route::get('/', 'HomeController@welcome')->name('welcome');
+Route::get('/home', 'HomeController@index')->name('home');
 
 
 #Usuário
@@ -32,6 +33,7 @@ Route::post('/anuncios/salvar', 'AnnouncementController@store')->name('store-ann
 Route::post('/anuncios/salvar/{id}', 'AnnouncementController@store')->name('store-announcement-edit');
 
 #Produtos
-Route::get('/anuncios/meus-anuncios', 'ProductController@list')->name('products');
+Route::get('/produtos', 'ProductController@list')->name('products');
+Route::get('/produtos/registro', 'ProductController@showForm')->name('form-product');
+Route::post('/produtos/salvar', 'ProductController@store')->name('store-product');
 
-Route::get('/home', 'HomeController@index')->name('home');

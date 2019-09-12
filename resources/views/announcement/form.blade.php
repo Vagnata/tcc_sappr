@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="py-5 text-center">
-            <h2>Cadastre-se</h2>
+            <h2>Anúncio</h2>
             <p class="lead">Preencha o formulário abaixo para ter acesso a reservas e ofertas dos produtos.</p>
         </div>
 
