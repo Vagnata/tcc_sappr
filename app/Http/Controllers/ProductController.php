@@ -23,7 +23,8 @@ class ProductController extends Controller
     {
         $products = $this->productService->findBy($request->all());
 
-        return view('product.list')->with('products', $products);
+        return view('product.list')
+            ->with(['products' => $products, 'buscar' => $request->get('buscar', '')]);
     }
 
     public function showForm(Request $request)

@@ -29,8 +29,6 @@ function makeRequest(url, data, requestType) {
 }
 
 function inativarProduto(idProduto) {
-    console.log('idProduto', idProduto);
-    return;
     Swal.fire({
         title: 'Deseja continuar?',
         text: "Este registro será inativado!",
@@ -43,11 +41,15 @@ function inativarProduto(idProduto) {
         if (result.value) {
             makeRequest(BASE_URL + 'produto/' + idProduto, null, 'DELETE').then(function (data, httpRequest) {
                 if (httpRequest === 'success') {
-                    Swal.fire(
-                        'Inativado!',
-                        'Produto foi inativado com sucesso.',
-                        'success'
-                    );
+                    Swal.fire({
+                        title: 'Inativado!',
+                        text: 'Produto foi inativado com sucesso.',
+                        type: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok!'
+                    }).then(() => {
+                       location.reload();
+                    });
                     return;
                 }
                 Swal.fire(

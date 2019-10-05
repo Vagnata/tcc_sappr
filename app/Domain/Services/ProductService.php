@@ -24,6 +24,14 @@ class ProductService
 
     public function findBy(array $filter): Collection
     {
+        $filter = removeNullItems($filter);
+        $data = new Fluent($filter);
+
+        if (!empty($data->{'buscar'})) {
+            return $this->productRepository->findBySearch($data->{'buscar'});
+        }
+
+
         return $this->productRepository->findAll($filter);
     }
 
