@@ -3,7 +3,7 @@
 namespace App\Domain\Services;
 
 use App\Domain\Repositories\ProductRepository;
-use App\Enums\ProductStatus;
+use App\Enums\ProductStatusEnum;
 use App\Product;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProductService
 {
@@ -26,6 +27,24 @@ class ProductService
         return $this->productRepository->findAll($filter);
     }
 
+    public function findById(int $id): Product
+    {
+        $products = $this->productRepository->findBy('id', $id);
+
+        if (!$products->count()) {
+            throw new NotFoundHttpException('Produto não encontrado');
+        }
+
+        return $products->first();
+    }
+
+    public function inactive(Product $product): Product
+    {
+        $data = ['product_status_id' => ProductStatusEnum::INACTIVE];
+
+        return $this->productRepository->update($product, $data);
+    }
+
     public function create(array $data): Product
     {
         $data      = new Fluent($data);
@@ -39,7 +58,7 @@ class ProductService
             'unity_type_id'     => $data->{'unity_type_id'},
             'name'              => $data->{'name'},
             'image_path'        => $imagePath,
-            'product_status_id' => ProductStatus::ACTIVE
+            'product_status_id' => ProductStatusEnum::ACTIVE
         ];
 
         return $this->productRepository->create($attributes);

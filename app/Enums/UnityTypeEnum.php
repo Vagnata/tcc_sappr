@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
-final class UnityType extends Enum
+final class UnityTypeEnum extends Enum
 {
     const UNITY    = 1;
     const KILOGRAM = 2;
@@ -14,15 +14,15 @@ final class UnityType extends Enum
     {
         return [
             [
-                'id'   => UnityType::UNITY,
+                'id'   => UnityTypeEnum::UNITY,
                 'name' => 'Unidade'
             ],
             [
-                'id'   => UnityType::KILOGRAM,
+                'id'   => UnityTypeEnum::KILOGRAM,
                 'name' => 'Kg'
             ],
             [
-                'id'   => UnityType::GRAM,
+                'id'   => UnityTypeEnum::GRAM,
                 'name' => 'g'
             ]
         ];

@@ -5,6 +5,10 @@ namespace App;
 use App\Domain\Models\ProductStatus;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property boolean product_status_id
+ * @property mixed id
+ */
 class Product extends Model
 {
     public $timestamps = true;

@@ -18,14 +18,13 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <button class="btn btn-primary">Buscar</button>
-                    <a href="{{route('form-product')}}">
-                        <button type="button" class="btn btn-success">+ Cadastrar</button>
-                    </a>
-                </div>
+            <div>
+                <a href="{{route('form-product')}}" class="btn btn-primary" type="button">
+                    Buscar
+                </a>
+                <a href="{{route('form-product')}}" class="btn btn-success" type="button">
+                    + Cadastrar
+                </a>
             </div>
         </form>
     </div>
@@ -54,7 +53,29 @@
                     <td>{{$product->id}}</td>
                     <td>{{$product->name}}</td>
                     <td>{{$product->unityType->name}}</td>
-                    <td>{{$product->productStatus->name}}</td>
+                    @if ($product->productStatus->isActive())
+                        <td class="green-color font-weight-bold">{{$product->productStatus->name}}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Opções
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item" type="button">Editar</button>
+                                    <button id="deleteButton" class="dropdown-item" type="button" onclick="inativarProduto(1)">Inativar</button>
+                                </div>
+                            </div>
+                        </td>
+                    @else
+                        <td class="red-color font-weight-bold">{{$product->productStatus->name}}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle btn-sm" disabled type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Opções
+                                </button>
+                            </div>
+                        </td>
+                    @endif
                 </tr>
             @endforeach
             </tbody>
