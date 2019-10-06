@@ -18,7 +18,6 @@ class CreateProductTable extends Migration
             $table->unsignedInteger('unity_type_id');
             $table->unsignedInteger('product_status_id');
             $table->string('name');
-            $table->string('image_path')->nullable();
             $table->timestamps();
 
             $table->foreign('unity_type_id')

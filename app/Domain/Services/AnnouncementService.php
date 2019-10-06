@@ -27,7 +27,7 @@ class AnnouncementService
     {
         $filter['announcement_status_id'] = AnnouncementStatus::ACTIVE;
 
-        return $this->announcementRepository->findAll($filter);
+        return $this->announcementRepository->findByFilter(removeNullItems($filter));
     }
 
     public function findByUser(array $filter): Collection
@@ -62,7 +62,7 @@ class AnnouncementService
 
     public function saveProductImage(UploadedFile $file): string
     {
-        $fileName = Carbon::create()->timestamp . $file->getClientOriginalExtension();
+        $fileName = sprintf('%s.%s', Carbon::create()->timestamp, $file->getClientOriginalExtension());
         Storage::disk('products')->put($fileName, File::get($file));
 
         return $fileName;

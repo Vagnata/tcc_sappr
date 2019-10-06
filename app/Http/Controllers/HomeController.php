@@ -18,6 +18,6 @@ class HomeController extends Controller
     {
         $announcements = $this->announcementService->findBy($request->all());
 
-        return view('welcome')->with('announcements', $announcements);
+        return view('welcome')->with(['announcements' => $announcements, 'buscar' => $request->get('buscar', '')]);
     }
 }
