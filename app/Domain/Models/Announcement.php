@@ -13,6 +13,21 @@ class Announcement extends Model
         'begin_date',
         'end_date'
     ];
+    protected $fillable = [
+        'product_id',
+        'name',
+        'local_withdraw',
+        'quantity',
+        'price',
+        'image_path',
+        'announcement_status_id',
+        'created_at',
+        'updated_at',
+        'begin_date',
+        'end_date',
+        'user_id'
+    ];
+    public $timestamps = true;
 
     public function product()
     {

@@ -44,10 +44,6 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        if (!is_null($request->file('product_image'))) {
-            $this->productService->saveProductImage($request->file('product_image'));
-        }
-
         if ($request->has('id')) {
             $product = $this->productService->findById((int) $request->get('id'));
             $this->productService->update($product, $request->all());

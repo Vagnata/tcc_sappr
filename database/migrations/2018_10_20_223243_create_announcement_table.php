@@ -23,7 +23,8 @@ class CreateAnnouncementTable extends Migration
             $table->unsignedInteger('announcement_status_id');
             $table->boolean('local_withdraw');
             $table->dateTime('begin_date');
-            $table->dateTime('end_data');
+            $table->dateTime('end_date');
+            $table->string('image_path')->nullable();
             $table->timestamps();
 
             $table->foreign('product_id')

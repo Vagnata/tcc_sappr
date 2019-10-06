@@ -36,14 +36,6 @@
                                     @endforeach
                                 </select>
                             </div>
-
-                            {{--<div class="col-md-4">--}}
-                                {{--<label for="customFile">Imagem</label>--}}
-                                {{--<div class="input-group">--}}
-                                    {{--<<input type="file" class="custom-file-input" id="customFile" name="product_image">--}}
-                                    {{--<label class="custom-file-label" for="customFile">Choose file</label>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
                         </div>
 
                     </div>

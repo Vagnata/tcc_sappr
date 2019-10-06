@@ -76,9 +76,4 @@ class ProductService
     {
         return $this->productRepository->update($product, $data);
     }
-
-    public function saveProductImage(UploadedFile $file): void
-    {
-        Storage::disk('products')->put($file->getClientOriginalName(), File::get($file));
-    }
 }

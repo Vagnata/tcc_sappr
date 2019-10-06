@@ -7,17 +7,14 @@
 @section('content')
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <p class="display-4">Meus anúncios</p>
-        <p class="lead">~~~~~~</p>
-        <form class="form-signin form-group" action="{{ route('welcome') }}" method="get">
-
-
+        <p class="lead"></p>
+        <form class="form-signin form-group" action="{{route('my-announcements')}}" method="get">
             <div class="mb-3">
                 <div class="row">
                     <div class="col-md-4">
                         <label for="data_criacao">Data Criação</label>
                         <input name="data_criacao" type="date" class="form-control" id="data_criacao"
-                               value="{{ old('data_criacao') }}"
-                               required>
+                               value="{{ old('data_criacao') }}">
                     </div>
 
                     <div class="col-md-4">
@@ -47,8 +44,7 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <h4 style="text-align: center">Você não possui nenhum anúncio ativo no momento, gostaria de realizar
-                    um?</h4>
+                <h4 style="text-align: center">Você não possui nenhum anúncio ativo no momento, gostaria de realizar <a href="{{route('form-announcement')}}">um?</a></h4>
             </div>
         </div>
     @else

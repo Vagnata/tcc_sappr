@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'SAPPR') }}</title>
+    <title>SAPPR</title>
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.4.1.js"

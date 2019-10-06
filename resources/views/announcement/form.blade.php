@@ -3,60 +3,88 @@
 @section('content')
     <div class="container">
         <div class="py-5 text-center">
-            <h2>Anúncio</h2>
-            <p class="lead">Preencha o formulário abaixo para ter acesso a reservas e ofertas dos produtos.</p>
+            <h2>Cadastro de Anúncio</h2>
+            <p class="lead">Insira os dados para criação do seu anúncio.</p>
         </div>
 
         <div class="row">
             <div class="col-md-12">
-                <form class="form-signin" action="{{ url('store-announcement') }}" method="post">
+                <form class="form-signin" action="{{ route('store-announcement') }}" method="post" enctype="multipart/form-data">
                     {!! csrf_field() !!}
 
                     <div class="mb-3">
-                        <div class="row">                     
+                        <div class="row">
                             <div class="col-md-4">
-                                <label for="name">Nome</label>
+                                <label for="name">Descrição</label>
                                 <input name="name" type="text" class="form-control" id="name" placeholder="Nome"
                                        value="{{ old('name') }}"
                                        required>
                             </div>
-							
-							<div class="col-md-4">
-                                <label for="name">Produto</label>
-                                <input name="product_id" type="text" class="form-control" id="product_id" placeholder="Produto"
-                                       value="{{ old('name') }}"
-                                       required>
+
+                            <div class="col-md-4">
+                                <label for="product_id">Produto</label>
+                                <select class="form-control" id="product_id" name="product_id">
+                                    @foreach($products as $product)
+                                        @if(isset($announcement) and $announcement['product_id'] == $product['id'])
+                                            <option selected
+                                                    value="{{$product['id']}}">{{$product['name'] . "($product->unityType->name)"}}</option>
+                                        @else
+                                            <option
+                                                value="{{$product['id']}}">{{$product['name'] . '(' . ($product->unityType->name) . ')'}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-4">
+                                <label for="local_withdraw">Tipo de Retirada</label>
+                                <select class="form-control" id="local_withdraw" name="local_withdraw">
+                                    @foreach($withdrawTypes as $withdrawType)
+                                        @if(isset($withdrawType) and $withdrawType['id'] == $product['local_withdraw'])
+                                            <option selected
+                                                    value="{{$withdrawType['id']}}">{{$withdrawType['name']}}</option>
+                                        @else
+                                            <option value="{{$withdrawType['id']}}">{{$withdrawType['name']}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="quantity">Quantidade</label>
+                                <input name="quantity" type="number" class="form-control" id="quantity"
+                                       placeholder="Quantidade"
+                                       value="{{ old('quantity') }}"
+                                       required>
+                            </div>
+
+                            <div class="col-md-6">
                                 <label for="email">Preço</label>
                                 <div class="input-group">
-                                    <input name='price' type="number" class="form-control" id="price" placeholder="Preço/Unidade" step="0.1"
+                                    <input name='price' type="number" class="form-control" id="price"
+                                           placeholder="Preço/Unidade" step="0.1"
                                            value="{{old('price')}}"
                                            required>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="mb-3">
-                        <div class="row">
-                            <div class="col-md-2"></div>
                             <div class="col-md-4">
-                                <label for="email">Senha</label>
-                                <div class="input-group">
-                                    <input name='password' type="password" class="form-control" id="password"
-                                           placeholder="Senha"
-                                           required>
-                                </div>
+                                <label for="begin_date">Data Início Anúncio</label>
+                                <input name="begin_date" type="date" class="form-control" id="begin_date"
+                                       value="{{ old('begin_date') }}" required>
                             </div>
 
                             <div class="col-md-4">
-                                <label for="password_confirmation">Confirme sua senha</label>
+                                <label for="end_date">Data Fim Anúncio</label>
+                                <input name="end_date" type="date" class="form-control" id="end_date"
+                                       value="{{ old('end_date') }}" required>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="customFile">Foto do Produto</label>
                                 <div class="input-group">
-                                    <input name='password_confirmation' type="password" class="form-control"
-                                           id="password_confirmation" placeholder="Digite novamente a senha"
-                                           required>
+                                    <input type="file" class="custom-file-input" id="customFile" name="product_image">
+                                    <label class="custom-file-label" for="customFile">Escolha a foto</label>
                                 </div>
                             </div>
                         </div>
