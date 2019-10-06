@@ -30,14 +30,16 @@ class ProductController extends Controller
     public function showForm(Request $request)
     {
         $unityTypes = UnityTypeEnum::getToForm();
+        $return     = [
+            'unityTypes' => $unityTypes
+        ];
 
         if ($request->route('id')) {
-            return 'edição';
-        } else {
-            return view('product.form')->with([
-                'unityTypes' => $unityTypes
-            ]);
+            $product           = $this->productService->findById($request->route('id'));
+            $return['product'] = $product->toArray();
         }
+
+        return view('product.form')->with($return);
     }
 
     public function store(Request $request)
@@ -46,9 +48,15 @@ class ProductController extends Controller
             $this->productService->saveProductImage($request->file('product_image'));
         }
 
-        $this->productService->create($request->toArray());
+        if ($request->has('id')) {
+            $product = $this->productService->findById((int) $request->get('id'));
+            $this->productService->update($product, $request->all());
+        } else {
+            $this->productService->create($request->all());
+        }
 
-        $products = $this->productService->findBy($request->all());
+
+        $products = $this->productService->findBy([]);
 
         return view('product.list')->with('products', $products);
     }

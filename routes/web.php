@@ -34,6 +34,6 @@ Route::post('/anuncios/salvar/{id}', 'AnnouncementController@store')->name('stor
 
 #Produtos
 Route::get('/produtos', 'ProductController@list')->name('products');
-Route::get('/produtos/registro', 'ProductController@showForm')->name('form-product');
+Route::get('/produtos/registro/{id?}', 'ProductController@showForm')->name('form-product');
 Route::post('/produtos/salvar', 'ProductController@store')->name('store-product');
 

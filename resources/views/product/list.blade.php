@@ -13,7 +13,7 @@
                     <div class="col-md-4">
                     </div>
                     <div class="col-md-4 form-group">
-                        <input class="form-control" name="buscar" id="buscar" type="text" placeholder="Buscar produtos" value="{{$buscar}}">
+                        <input class="form-control" name="buscar" id="buscar" type="text" placeholder="Buscar produtos" value="@if(isset($buscar)){{$buscar}}@endif">
                     </div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                                     Opções
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <a href="">
+                                    <a href="{{route('form-product', ['id' => $product->id])}}">
                                         <button class="dropdown-item" type="button">Editar</button>
                                     </a>
                                     <button id="deleteButton" class="dropdown-item" type="button" onclick="inativarProduto({{$product->id}})">Inativar</button>

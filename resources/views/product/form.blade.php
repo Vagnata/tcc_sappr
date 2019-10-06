@@ -11,12 +11,16 @@
                 <form class="form-signin" action="{{ route('store-product') }}" method="post" enctype="multipart/form-data">
                     {!! csrf_field() !!}
 
+                    @if(isset($product))
+                        <input type="hidden" value="{{$product['id']}}}" name="id">
+                    @endif
+
                     <div class="mb-3">
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="name">Nome</label>
                                 <input name="name" type="text" class="form-control" id="name" placeholder="Nome"
-                                       value="{{ old('name') }}"
+                                       value="@if(isset($product)) {{$product['name']}} @else {{old('name')}} @endif"
                                        required>
                             </div>
 
@@ -24,7 +28,11 @@
                                 <label for="unity_type">Tipo de Medida</label>
                                 <select class="form-control" id="unity_type" name="unity_type_id">
                                     @foreach($unityTypes as $unityType)
-                                        <option value="{{$unityType['id']}}">{{$unityType['name']}}</option>
+                                        @if(isset($product) and $product['unity_type_id'] == $unityType['id'])
+                                            <option selected value="{{$unityType['id']}}">{{$unityType['name']}}</option>
+                                        @else
+                                            <option value="{{$unityType['id']}}">{{$unityType['name']}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -37,6 +45,7 @@
                                 {{--</div>--}}
                             {{--</div>--}}
                         </div>
+
                     </div>
                     @if ($errors->any())
                         <div class="row">
