@@ -5,7 +5,7 @@ namespace App\Domain\Services;
 use App\Domain\Models\Announcement;
 use App\Domain\Models\AnnouncementStatus;
 use App\Domain\Repositories\AnnouncementRepository;
-use App\Enums\AnnoucementStatusEnum;
+use App\Enums\AnnouncementStatusEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
@@ -54,7 +54,7 @@ class AnnouncementService
             'end_date'               => $data->{'end_date'},
             'image_path'             => $fileName,
             'user_id'                => Auth::user()['id'],
-            'announcement_status_id' => AnnoucementStatusEnum::ACTIVE
+            'announcement_status_id' => AnnouncementStatusEnum::ACTIVE
         ];
 
         return $this->announcementRepository->create($attributes);

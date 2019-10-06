@@ -11,13 +11,13 @@
         <form class="form-signin form-group" action="{{route('my-announcements')}}" method="get">
             <div class="mb-3">
                 <div class="row">
-                    <div class="col-md-4">
-                        <label for="data_criacao">Data Criação</label>
+                    <div class="col-md-6">
+                        <label for="data_criacao">Data Cadastro</label>
                         <input name="data_criacao" type="date" class="form-control" id="data_criacao"
                                value="{{ old('data_criacao') }}">
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label for="tipo_retirada">Tipo Retirada</label>
                         <select name="tipo_retirada" class="form-control">
                             <option value="">Selecione</option>
@@ -44,65 +44,70 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <h4 style="text-align: center">Você não possui nenhum anúncio ativo no momento, gostaria de realizar <a href="{{route('form-announcement')}}">um?</a></h4>
+                <h4 style="text-align: center">Você não possui nenhum anúncio ativo no momento, gostaria de realizar <a
+                        href="{{route('form-announcement')}}">um?</a></h4>
             </div>
         </div>
     @else
-        @foreach($announcements as $announcement)
-            teste
-        @endforeach
-        <div class="card-deck mb-3 text-center">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Free</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$0
-                        <small class="text-muted">/ mo</small>
-                    </h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>10 users included</li>
-                        <li>2 GB of storage</li>
-                        <li>Email support</li>
-                        <li>Help center access</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
-                </div>
-            </div>
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Pro</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$15
-                        <small class="text-muted">/ mo</small>
-                    </h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>20 users included</li>
-                        <li>10 GB of storage</li>
-                        <li>Priority email support</li>
-                        <li>Help center access</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
-                </div>
-            </div>
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Enterprise</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$29
-                        <small class="text-muted">/ mo</small>
-                    </h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>30 users included</li>
-                        <li>15 GB of storage</li>
-                        <li>Phone and email support</li>
-                        <li>Help center access</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
-                </div>
-            </div>
-        </div>
+        <table class="table container">
+            <thead>
+            <tr>
+                <th>Código</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Produto</th>
+                <th>Tipo de Retirada</th>
+                <th>Data Inicio</th>
+                <th>Data Fim</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($announcements as $announcement)
+                <tr>
+                    <td>{{$announcement->id}}</td>
+                    <td>{{$announcement->name}}</td>
+                    <td>{{$announcement->getFormattedPriceAttribute()}}</td>
+                    <td>{{$announcement->quantity}}</td>
+                    <td>{{$announcement->product->name}}</td>
+                    <td>{{$announcement->withdrawType()}}</td>
+                    <td>{{$announcement->getBeginDateFormatted()}}</td>
+                    <td>{{$announcement->getEndDateFormatted()}}</td>
+                    @if ($announcement->announcementStatus->isActive())
+                        <td class="green-color font-weight-bold">{{$announcement->announcementStatus->name}}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle btn-sm" type="button"
+                                        id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                    Opções
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <a href="{{route('form-product', ['id' => $announcement->id])}}">
+                                        <button class="dropdown-item" type="button">Editar</button>
+                                    </a>
+                                    <button id="deleteButton" class="dropdown-item" type="button"
+                                            onclick="inativarProduto({{$announcement->id}})">Inativar
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    @else
+                        <td class="red-color font-weight-bold">{{$announcement->productStatus->name}}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle btn-sm" disabled type="button"
+                                        id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                    Opções
+                                </button>
+                            </div>
+                        </td>
+                    @endif
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
     @endif
 @stop
