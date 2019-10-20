@@ -2,11 +2,8 @@
 
 namespace App\Domain\Repositories;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Session;
-use App\Domain\Repositories\RepositoryInterface;
 
 abstract class RepositoryAbstract implements RepositoryInterface
 {
@@ -15,6 +12,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
     public function all($attributes = ['*']): Collection
     {
         $instance = $this->createModel();
+
         return $instance->get($attributes);
     }
 
@@ -23,17 +21,15 @@ abstract class RepositoryAbstract implements RepositoryInterface
         $instance = $this->createModel();
         $instance->fill($attributes);
         $instance->save();
+
         return $instance;
     }
 
     public function createModel(): Model
     {
-        $instance = (new $this->model());
-        if (Session::has('database') && empty($instance->getConnectionName())) {
-            $instance->setConnection(Session::get('database'));
-        }
-        return $instance;
+        return (new $this->model());
     }
+
     public function findOneBy($key, $value): ?Model
     {
         return $this->createModel()->where($key, '=', $value)->first();
@@ -44,6 +40,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
         if (is_array($values)) {
             return $this->createModel()->whereIn($key, $values)->get();
         }
+
         return $this->createModel()->where($key, '=', $values)->get();
     }
 
@@ -52,15 +49,11 @@ abstract class RepositoryAbstract implements RepositoryInterface
         return $this->createModel()->where($filter)->get();
     }
 
-    public function getBuilder(): Builder
-    {
-        return $this->createModel()->where([]);
-    }
-
     public function update(Model $instance, array $attributes = []): Model
     {
         $instance->fill($attributes);
         $instance->save();
+
         return $instance;
     }
 

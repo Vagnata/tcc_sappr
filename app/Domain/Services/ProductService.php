@@ -6,10 +6,6 @@ use App\Domain\Repositories\ProductRepository;
 use App\Enums\ProductStatusEnum;
 use App\Product;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -25,7 +21,7 @@ class ProductService
     public function findBy(array $filter): Collection
     {
         $filter = removeNullItems($filter);
-        $data = new Fluent($filter);
+        $data   = new Fluent($filter);
 
         if (!empty($data->{'buscar'})) {
             return $this->productRepository->findBySearch($data->{'buscar'});
@@ -55,17 +51,11 @@ class ProductService
 
     public function create(array $data): Product
     {
-        $data      = new Fluent($data);
-        $imagePath = null;
-
-        if ($data->{'product_image'}) {
-            $imagePath = $data->{'product_image'}->getClientOriginalName();
-        }
+        $data = new Fluent($data);
 
         $attributes = [
             'unity_type_id'     => $data->{'unity_type_id'},
             'name'              => $data->{'name'},
-            'image_path'        => $imagePath,
             'product_status_id' => ProductStatusEnum::ACTIVE
         ];
 

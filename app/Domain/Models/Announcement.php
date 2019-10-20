@@ -32,7 +32,10 @@ class Announcement extends Model
         'updated_at',
         'begin_date',
         'end_date',
-        'user_id'
+        'user_id',
+        'current_quantity',
+        'address',
+        'phone'
     ];
     public $timestamps = true;
 

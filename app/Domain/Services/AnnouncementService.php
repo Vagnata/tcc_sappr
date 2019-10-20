@@ -49,12 +49,15 @@ class AnnouncementService
             'name'                   => $data->{'name'},
             'local_withdraw'         => $data->{'local_withdraw'},
             'quantity'               => $data->{'quantity'},
+            'current_quantity'       => $data->{'quantity'},
             'price'                  => $data->{'price'},
             'begin_date'             => $data->{'begin_date'},
             'end_date'               => $data->{'end_date'},
             'image_path'             => $fileName,
             'user_id'                => Auth::user()['id'],
-            'announcement_status_id' => AnnouncementStatusEnum::ACTIVE
+            'announcement_status_id' => AnnouncementStatusEnum::ACTIVE,
+            'address'                => $data->{'address'},
+            'phone'                  => $data->{'phone'}
         ];
 
         return $this->announcementRepository->create($attributes);
