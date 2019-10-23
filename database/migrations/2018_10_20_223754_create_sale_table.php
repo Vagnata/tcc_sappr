@@ -17,11 +17,11 @@ class CreateSaleTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('announcement_id');
             $table->unsignedInteger('user_id')->comment('ID do usuário que fez a compra');
-            $table->unsignedInteger('payment_type_id');
+            $table->unsignedInteger('payment_type_id')->nullable();
             $table->unsignedInteger('sale_status_id');
             $table->integer('quantity');
             $table->double('price');
-            $table->double('discount');
+            $table->double('discount')->nullable();
             $table->timestamps();
 
             $table->foreign('announcement_id')

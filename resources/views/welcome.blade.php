@@ -51,12 +51,21 @@
                                     <ul class="list-unstyled mt-3 mb-4">
                                         <li>{{$announcement->name}}</li>
                                         <li class="font-weight-bold">Quantidade
-                                            Disponível: {{$announcement->quantity}}</li>
+                                            Disponível: {{$announcement->current_quantity}}</li>
                                         <li class="font-weight-bold">{{$announcement->withdrawType()}}</li>
                                     </ul>
-                                    <button type="button" class="btn btn-lg btn-block btn-outline-primary mt-auto">
-                                        Reservar
-                                    </button>
+                                    @if ($announcement->current_quantity == 0)
+                                        <div class="btn btn-lg btn-block btn-danger mt-auto">
+                                            Produto Esgotado
+                                        </div>
+                                    @else
+                                        <a class="mt-auto"  style="text-decoration: none" href="{{route('checkout-page', ['id' => $announcement->id])}}">
+                                            <button type="button"
+                                                    class="btn btn-lg btn-block btn-outline-primary mt-auto">
+                                                Reservar
+                                            </button>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>

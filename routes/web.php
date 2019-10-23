@@ -32,6 +32,9 @@ Route::get('/anuncios/registro/{id}', 'AnnouncementController@showForm')->name('
 Route::post('/anuncios/salvar', 'AnnouncementController@store')->name('store-announcement');
 Route::post('/anuncios/salvar/{id}', 'AnnouncementController@store')->name('store-announcement-edit');
 
+Route::get('/pedido/checkout/{id}', 'OrderController@checkoutPage')->name('checkout-page');
+Route::post('/pedido/salvar', 'OrderController@storeOrder')->name('store-order');
+
 #Produtos
 Route::get('/produtos', 'ProductController@list')->name('products');
 Route::get('/produtos/registro/{id?}', 'ProductController@showForm')->name('form-product');

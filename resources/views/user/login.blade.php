@@ -9,8 +9,13 @@
         {!! csrf_field() !!}
         <h1 style="text-align: center">SAPPR</h1>
         @if ($errors->has('email') || $errors->has('password'))
-            <div class="alert alert-warning" role="alert">
+            <div class="alert alert-warning text-center" role="alert">
                 Usuário ou senha incorretos. Tente outra vez.
+            </div>
+        @endif
+        @if (isset($message))
+            <div class="alert alert-warning text-center" role="alert">
+                {{$message}}
             </div>
         @endif
         <div class="mb-5">

@@ -52,7 +52,6 @@ class AnnouncementController extends Controller
             $this->announcementService->create($request->all(), $fileName);
         }
 
-
         $announcements = $this->announcementService->findByUser($request->all());
 
         return view('announcement.list')->with('announcements', $announcements);
