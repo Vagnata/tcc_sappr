@@ -54,7 +54,7 @@
                                             Disponível: {{$announcement->current_quantity}}</li>
                                         <li class="font-weight-bold">{{$announcement->withdrawType()}}</li>
                                     </ul>
-                                    @if ($announcement->current_quantity == 0)
+                                    @if ($announcement->current_quantity <= 0)
                                         <div class="btn btn-lg btn-block btn-danger mt-auto">
                                             Produto Esgotado
                                         </div>

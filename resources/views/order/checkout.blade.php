@@ -24,6 +24,7 @@
                                        placeholder="Quantidade"
                                        value="{{ old('quantity') }}"
                                        max="{{$announcement->current_quantity}}"
+                                       min="1"
                                        required>
                             </div>
 

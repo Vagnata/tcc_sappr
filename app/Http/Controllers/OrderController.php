@@ -31,6 +31,20 @@ class OrderController extends Controller
 
     public function storeOrder(Request $request)
     {
+        $announcement = $this->announcementService->findBy(['id' => $request->get('id')])->first();
 
+        $order        = $this->orderService->create($announcement, $request->all());
+        $this->announcementService->editCurrentQuantity($announcement, $order);
+
+        $orders = $this->orderService->findMyOrders();
+
+        return view('order.my_orders_list')->with(['orders' => $orders, 'newOrder' => $order]);
+    }
+
+    public function myOrders(Request $request)
+    {
+        $orders = $this->orderService->findMyOrders();
+
+        return view('order.my_orders_list')->with('orders', $orders);
     }
 }

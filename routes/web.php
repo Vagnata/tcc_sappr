@@ -34,6 +34,7 @@ Route::post('/anuncios/salvar/{id}', 'AnnouncementController@store')->name('stor
 
 Route::get('/pedido/checkout/{id}', 'OrderController@checkoutPage')->name('checkout-page');
 Route::post('/pedido/salvar', 'OrderController@storeOrder')->name('store-order');
+Route::get('/pedido/meus-pedidos', 'OrderController@myOrders')->name('my-orders');
 
 #Produtos
 Route::get('/produtos', 'ProductController@list')->name('products');

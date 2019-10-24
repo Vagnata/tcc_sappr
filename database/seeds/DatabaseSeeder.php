@@ -73,13 +73,25 @@ class DatabaseSeeder extends Seeder
         DB::table('sale_status')->insert([
             [
                 'id'         => 1,
-                'name'       => 'Ativo',
+                'name'       => 'Aguardando Confirmação',
                 'created_at' => Carbon::create(),
                 'updated_at' => Carbon::create()
             ],
             [
                 'id'         => 2,
-                'name'       => 'Inativo',
+                'name'       => 'Confirmado',
+                'created_at' => Carbon::create(),
+                'updated_at' => Carbon::create()
+            ],
+            [
+                'id'         => 3,
+                'name'       => 'Cancelado',
+                'created_at' => Carbon::create(),
+                'updated_at' => Carbon::create()
+            ],
+            [
+                'id'         => 4,
+                'name'       => 'Finalizado',
                 'created_at' => Carbon::create(),
                 'updated_at' => Carbon::create()
             ]

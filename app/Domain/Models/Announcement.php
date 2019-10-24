@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed price
  * @property mixed begin_date
  * @property mixed end_date
+ * @property mixed id
+ * @property mixed current_quantity
  */
 class Announcement extends Model
 {

@@ -4,6 +4,7 @@ namespace App\Domain\Services;
 
 use App\Domain\Models\Announcement;
 use App\Domain\Models\AnnouncementStatus;
+use App\Domain\Models\Order;
 use App\Domain\Repositories\AnnouncementRepository;
 use App\Enums\AnnouncementStatusEnum;
 use Carbon\Carbon;
@@ -69,5 +70,14 @@ class AnnouncementService
         Storage::disk('products')->put($fileName, File::get($file));
 
         return $fileName;
+    }
+
+    public function editCurrentQuantity(Announcement $announcement, Order $order): Announcement
+    {
+        $attributes = [
+            'current_quantity' => $announcement->current_quantity - $order->quantity
+        ];
+
+        return $this->announcementRepository->update($announcement, $attributes);
     }
 }

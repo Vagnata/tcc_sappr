@@ -2,61 +2,52 @@
 
 namespace App\Domain\Models;
 
+use App\Enums\OrderStatusEnum;
 use App\Product;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property boolean local_withdraw
+ * @property mixed created_at
+ * @property mixed updated_at
+ * @property mixed quantity
  * @property mixed price
- * @property mixed begin_date
- * @property mixed end_date
+ * @property mixed sale_status_id
  */
 class Order extends Model
 {
+    protected $table = 'sales';
     protected $dates = [
         'created_at',
-        'updated_at',
-        'begin_date',
-        'end_date'
+        'updated_at'
     ];
     protected $fillable = [
-        'product_id',
-        'name',
-        'local_withdraw',
+        'announcement_id',
+        'user_id',
+        'sale_status_id',
         'quantity',
         'price',
-        'image_path',
-        'announcement_status_id',
+        'discount',
         'created_at',
         'updated_at',
-        'begin_date',
-        'end_date',
-        'user_id',
-        'current_quantity',
         'address',
         'phone'
     ];
     public $timestamps = true;
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'product_id', 'id');
-    }
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function announcementStatus()
+    public function announcement()
     {
-        return $this->belongsTo(AnnouncementStatus::class, 'announcement_status_id', 'id');
+        return $this->belongsTo(Announcement::class, 'announcement_id', 'id');
     }
 
-    public function withdrawType(): string
+    public function orderStatus()
     {
-        return $this->local_withdraw ? 'Entrega' : 'Retirada no Local';
+        return $this->belongsTo(OrderStatus::class, 'sale_status_id', 'id');
     }
 
     public function getFormattedPriceAttribute()
@@ -64,13 +55,19 @@ class Order extends Model
         return number_format($this->price, 2);
     }
 
-    public function getBeginDateFormatted()
+    public function getCreatedDateFormatted()
     {
-        return $this->begin_date->format('d/m/Y');
+        return $this->created_at->format('d/m/Y');
     }
 
-    public function getEndDateFormatted()
+    public function getUpdatedDateFormatted()
     {
-        return $this->end_date->format('d/m/Y');
+        return $this->updated_at->format('d/m/Y');
     }
+
+    public function isAwaitingConfirmation()
+    {
+        return $this->sale_status_id == OrderStatusEnum::AWAITING_CONFIRMATION;
+    }
+
 }

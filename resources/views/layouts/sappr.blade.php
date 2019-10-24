@@ -18,6 +18,9 @@
             <nav class="my-2 my-md-0 mr-md-3">
                 <a class="p-2 text-dark" href="{{route('my-announcements')}}">Meus anúncios</a>
             </nav>
+                <nav class="my-2 my-md-0 mr-md-3">
+                    <a class="p-2 text-dark" href="{{route('my-orders')}}">Meus pedidos</a>
+                </nav>
             <a class="btn btn-outline-primary" href="<?= route('logout'); ?>" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">Sair</a>
 
