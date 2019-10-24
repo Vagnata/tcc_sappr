@@ -30,36 +30,45 @@ class OrderController extends Controller
             return view('order.checkout')->with('announcement', $announcement);
         }
 
-        return view('user.login')->with('message', trans('message.order.unauthorized'));
+        return view('user.login')->with('message', trans('message.login.unauthorized'));
     }
 
     public function storeOrder(Request $request)
     {
-        $announcement = $this->announcementService->findBy(['id' => $request->get('id')])->first();
+        if (Auth::check()) {
+            $announcement = $this->announcementService->findBy(['id' => $request->get('id')])->first();
 
-        $order = $this->orderService->create($announcement, $request->all());
-        $this->announcementService->editCurrentQuantity($announcement, $order);
+            $order = $this->orderService->create($announcement, $request->all());
+            $this->announcementService->editCurrentQuantity($announcement, $order);
 
-        $orders      = $this->orderService->findMyOrders();
-        $orderStatus = OrderStatusEnum::toForm();
+            $orders      = $this->orderService->findMyOrders();
+            $orderStatus = OrderStatusEnum::toForm();
 
-        return view('order.my_orders_list')->with([
-            'orders'      => $orders,
-            'newOrder'    => $order,
-            'orderStatus' => $orderStatus
-        ]);
+            return view('order.my_orders_list')->with([
+                'orders'      => $orders,
+                'newOrder'    => $order,
+                'orderStatus' => $orderStatus
+            ]);
+        }
+
+        return view('user.login')->with('message', trans('message.login.unauthorized'));
     }
 
     public function myOrders(Request $request)
     {
-        $orders      = $this->orderService->findMyOrders($request->all());
-        $orderStatus = OrderStatusEnum::toForm();
+        if (Auth::check()) {
 
-        return view('order.my_orders_list')->with([
-            'orders'      => $orders,
-            'orderStatus' => $orderStatus,
-            'filter'      => $request->all()
-        ]);
+            $orders      = $this->orderService->findMyOrders($request->all());
+            $orderStatus = OrderStatusEnum::toForm();
+
+            return view('order.my_orders_list')->with([
+                'orders'      => $orders,
+                'orderStatus' => $orderStatus,
+                'filter'      => $request->all()
+            ]);
+        }
+
+        return view('user.login')->with('message', trans('message.login.unauthorized'));
     }
 
     public function cancelOrder($id)

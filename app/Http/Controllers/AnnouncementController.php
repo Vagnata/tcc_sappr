@@ -7,6 +7,7 @@ use App\Domain\Services\ProductService;
 use App\Enums\ProductStatusEnum;
 use App\Enums\WithdrawTypeEnum;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnnouncementController extends Controller
 {
@@ -22,38 +23,52 @@ class AnnouncementController extends Controller
 
     public function list(Request $request)
     {
-        $announcements = $this->announcementService->findByUser($request->all());
+        if (Auth::check()) {
 
-        return view('announcement.list')->with('announcements', $announcements);
+            $announcements = $this->announcementService->findByUser($request->all());
+
+            return view('announcement.list')->with('announcements', $announcements);
+        }
+
+        return view('user.login')->with('message', trans('message.login.unauthorized'));
     }
 
     public function showForm(Request $request)
     {
-        $return = [
-            'products'      => $this->productService->findBy(['product_status_id' => ProductStatusEnum::ACTIVE]),
-            'withdrawTypes' => WithdrawTypeEnum::getToForm()
-        ];
+        if (Auth::check()) {
 
-        if ($request->route('id')) {
-            return 'edição';
+            $return = [
+                'products'      => $this->productService->findBy(['product_status_id' => ProductStatusEnum::ACTIVE]),
+                'withdrawTypes' => WithdrawTypeEnum::getToForm()
+            ];
+
+            if ($request->route('id')) {
+                return 'edição';
+            }
+
+            return view('announcement.form', $return);
         }
 
-        return view('announcement.form', $return);
+        return view('user.login')->with('message', trans('message.login.unauthorized'));
     }
 
     public function store(Request $request)
     {
-        $fileName = $this->announcementService->saveProductImage($request->file('product_image'));
+        if (Auth::check()) {
+            $fileName = $this->announcementService->saveProductImage($request->file('product_image'));
 
-        if ($request->has('id')) {
-            $product = $this->productService->findById((int)$request->get('id'));
-            $this->productService->update($product, $request->all());
-        } else {
-            $this->announcementService->create($request->all(), $fileName);
+            if ($request->has('id')) {
+                $product = $this->productService->findById((int)$request->get('id'));
+                $this->productService->update($product, $request->all());
+            } else {
+                $this->announcementService->create($request->all(), $fileName);
+            }
+
+            $announcements = $this->announcementService->findByUser($request->all());
+
+            return view('announcement.list')->with('announcements', $announcements);
         }
 
-        $announcements = $this->announcementService->findByUser($request->all());
-
-        return view('announcement.list')->with('announcements', $announcements);
+        return view('user.login')->with('message', trans('message.login.unauthorized'));
     }
 }

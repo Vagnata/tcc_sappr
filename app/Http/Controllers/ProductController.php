@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Domain\Services\ProductService;
 use App\Enums\UnityTypeEnum;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,40 +22,52 @@ class ProductController extends Controller
 
     public function list(Request $request)
     {
-        $products = $this->productService->findBy($request->all());
+        if (Auth::check()) {
+            $products = $this->productService->findBy($request->all());
 
-        return view('product.list')
-            ->with(['products' => $products, 'buscar' => $request->get('buscar', '')]);
+            return view('product.list')->with(['products' => $products, 'buscar' => $request->get('buscar', '')]);
+        }
+
+        return view('user.login')->with('message', trans('message.login.unauthorized'));
     }
 
     public function showForm(Request $request)
     {
-        $unityTypes = UnityTypeEnum::getToForm();
-        $return     = [
-            'unityTypes' => $unityTypes
-        ];
+        if (Auth::check()) {
+            $unityTypes = UnityTypeEnum::getToForm();
+            $return     = [
+                'unityTypes' => $unityTypes
+            ];
 
-        if ($request->route('id')) {
-            $product           = $this->productService->findById($request->route('id'));
-            $return['product'] = $product->toArray();
+            if ($request->route('id')) {
+                $product           = $this->productService->findById($request->route('id'));
+                $return['product'] = $product->toArray();
+            }
+
+            return view('product.form')->with($return);
         }
 
-        return view('product.form')->with($return);
+        return view('user.login')->with('message', trans('message.login.unauthorized'));
+
     }
 
     public function store(Request $request)
     {
-        if ($request->has('id')) {
-            $product = $this->productService->findById((int) $request->get('id'));
-            $this->productService->update($product, $request->all());
-        } else {
-            $this->productService->create($request->all());
+        if (Auth::check()) {
+            if ($request->has('id')) {
+                $product = $this->productService->findById((int)$request->get('id'));
+                $this->productService->update($product, $request->all());
+            } else {
+                $this->productService->create($request->all());
+            }
+
+
+            $products = $this->productService->findBy([]);
+
+            return view('product.list')->with('products', $products);
         }
 
-
-        $products = $this->productService->findBy([]);
-
-        return view('product.list')->with('products', $products);
+        return view('user.login')->with('message', trans('message.login.unauthorized'));
     }
 
     public function delete($id)
