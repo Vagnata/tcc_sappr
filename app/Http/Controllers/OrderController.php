@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Domain\Services\AnnouncementService;
 use App\Domain\Services\OrderService;
+use App\Enums\OrderStatusEnum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -39,16 +40,26 @@ class OrderController extends Controller
         $order = $this->orderService->create($announcement, $request->all());
         $this->announcementService->editCurrentQuantity($announcement, $order);
 
-        $orders = $this->orderService->findMyOrders();
+        $orders      = $this->orderService->findMyOrders();
+        $orderStatus = OrderStatusEnum::toForm();
 
-        return view('order.my_orders_list')->with(['orders' => $orders, 'newOrder' => $order]);
+        return view('order.my_orders_list')->with([
+            'orders'      => $orders,
+            'newOrder'    => $order,
+            'orderStatus' => $orderStatus
+        ]);
     }
 
     public function myOrders(Request $request)
     {
-        $orders = $this->orderService->findMyOrders();
+        $orders      = $this->orderService->findMyOrders($request->all());
+        $orderStatus = OrderStatusEnum::toForm();
 
-        return view('order.my_orders_list')->with('orders', $orders);
+        return view('order.my_orders_list')->with([
+            'orders'      => $orders,
+            'orderStatus' => $orderStatus,
+            'filter'      => $request->all()
+        ]);
     }
 
     public function cancelOrder($id)

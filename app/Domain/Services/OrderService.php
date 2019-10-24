@@ -20,9 +20,9 @@ class OrderService
         $this->orderRepository = new OrderRepository();
     }
 
-    public function findMyOrders(): Collection
+    public function findMyOrders(array $filter = []): Collection
     {
-        return $this->orderRepository->findByUser(Auth::id());
+        return $this->orderRepository->findByUser(Auth::id(), $filter);
     }
 
     public function findByFilter(array $filter): Collection

@@ -7,14 +7,30 @@
 @section('content')
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <p class="display-4">Meus pedidos</p>
+        <p class="lead">Realize pesquisas com filtros.</p>
         <p class="lead"></p>
-        <form class="form-signin form-group" action="{{route('my-announcements')}}" method="get">
+        <form class="form-signin form-group" action="{{route('my-orders')}}" method="get">
             <div class="mb-3">
                 <div class="row">
-                    <div class="col-md-6 offset-3">
-                        <label for="data_criacao">Data da Reserva</label>
-                        <input name="data_criacao" type="date" class="form-control" id="data_criacao"
-                               value="{{ old('data_criacao') }}">
+                    <div class="col-md-6">
+                        <label for="created_at">Data da Reserva</label>
+                        <input name="created_at" type="date" class="form-control" id="created_at"
+                               value="@if(isset($filter['created_at'])){{ $filter['created_at'] }}@endif">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="sale_status_id">Status</label>
+                        <select class="form-control" id="sale_status_id" name="sale_status_id">
+                            <option value="">Selecione...</option>
+                            @foreach($orderStatus as $status)
+                                @if(isset($filter['sale_status_id']) && $status['id'] == $filter['sale_status_id'])
+                                    <option selected
+                                        value="{{$status['id']}}">{{$status['name']}}</option>
+                                @else
+                                    <option
+                                        value="{{$status['id']}}">{{$status['name']}}</option>
+                                @endif
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>
@@ -66,7 +82,7 @@
             @foreach($orders as $order)
                 <tr>
                     <td>{{$order->id}}</td>
-                    <td>{{$order->user->name}}</td>
+                    <td>{{$order->announcement->user->name}}</td>
                     <td>{{$order->phone}}</td>
                     <td>{{$order->address}}</td>
                     <td>{{$order->announcement->product->name}}</td>
