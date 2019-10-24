@@ -24,6 +24,11 @@ class AnnouncementService
         $this->announcementRepository = new AnnouncementRepository();
     }
 
+    public function findByKey(string $key, $value): Collection
+    {
+        return $this->announcementRepository->findBy($key, $value);
+    }
+
     public function findBy(array $filter): Collection
     {
         $filter['announcement_status_id'] = AnnouncementStatus::ACTIVE;
@@ -76,6 +81,15 @@ class AnnouncementService
     {
         $attributes = [
             'current_quantity' => $announcement->current_quantity - $order->quantity
+        ];
+
+        return $this->announcementRepository->update($announcement, $attributes);
+    }
+
+    public function updateBalance(Announcement $announcement, Order $order)
+    {
+        $attributes   = [
+            'current_quantity' => $announcement->current_quantity + $order->quantity
         ];
 
         return $this->announcementRepository->update($announcement, $attributes);

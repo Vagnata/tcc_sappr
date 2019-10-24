@@ -3,8 +3,6 @@
 namespace App\Domain\Models;
 
 use App\Enums\OrderStatusEnum;
-use App\Product;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -13,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed quantity
  * @property mixed price
  * @property mixed sale_status_id
+ * @property mixed announcement_id
+ * @property mixed id
  */
 class Order extends Model
 {
@@ -70,4 +70,13 @@ class Order extends Model
         return $this->sale_status_id == OrderStatusEnum::AWAITING_CONFIRMATION;
     }
 
+    public function isConfirmed()
+    {
+        return $this->sale_status_id == OrderStatusEnum::CONFIRMED;
+    }
+
+    public function isFinalized()
+    {
+        return $this->sale_status_id == OrderStatusEnum::FINALIZED;
+    }
 }

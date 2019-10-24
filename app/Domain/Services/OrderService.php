@@ -9,6 +9,7 @@ use App\Enums\OrderStatusEnum;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Fluent;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OrderService
 {
@@ -21,7 +22,20 @@ class OrderService
 
     public function findMyOrders(): Collection
     {
-        return $this->orderRepository->findBy('user_id', Auth::id());
+        return $this->orderRepository->findByUser(Auth::id());
+    }
+
+    public function findByFilter(array $filter): Collection
+    {
+        $filter['sale_status_id'] = OrderStatusEnum::AWAITING_CONFIRMATION;
+
+        $pedidos = $this->orderRepository->findByFilter($filter);
+
+        if (!$pedidos->count()) {
+            throw new NotFoundHttpException('Seu pedido já está cancelado ou já foi confirmado. Entre em contato com o fornecedor');
+        }
+
+        return $pedidos;
     }
 
     public function create(Announcement $announcement, array $data): Order
@@ -40,6 +54,15 @@ class OrderService
         ];
 
         return $this->orderRepository->create($attributes);
+    }
+
+    public function cancel(Order $order): Order
+    {
+        $attributes = [
+            'sale_status_id' => OrderStatusEnum::CANCELLED
+        ];
+
+        return $this->orderRepository->update($order, $attributes);
     }
 
 }

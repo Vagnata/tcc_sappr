@@ -23,3 +23,10 @@ Route::group([
     Route::delete('/{id}', 'ProductController@delete');
 });
 
+Route::group([
+    'prefix'    => 'pedido',
+], function () {
+    Route::put('/cancelar/{id}', 'OrderController@cancelOrder');
+    Route::put('/confirmar/{id}', 'OrderController@confirmOrder');
+    Route::put('/finalizar/{id}', 'OrderController@finalizeOrder');
+});

@@ -85,13 +85,20 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                     <button id="deleteButton" class="dropdown-item" type="button"
-                                            onclick="inativarProduto({{$order->id}})">Cancelar
+                                            onclick="cancelarPedido({{$order->id}})">Cancelar
                                     </button>
                                 </div>
                             </div>
                         </td>
                     @else
-                        <td class="red-color font-weight-bold">{{$order->orderStatus->name}}</td>
+                        @if($order->isConfirmed())
+                            <td class="green-color font-weight-bold">{{$order->orderStatus->name}}</td>
+                        @elseif($order->isFinalized())
+                            <td class="gray-color font-weight-bold">{{$order->orderStatus->name}}</td>
+                        @else
+                            <td class="red-color font-weight-bold">{{$order->orderStatus->name}}</td>
+                        @endif
+
                         <td>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle btn-sm" disabled type="button"
