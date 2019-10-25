@@ -38,6 +38,16 @@ class OrderService
         return $pedidos;
     }
 
+    public function findByAnnouncement(Announcement $announcement): Collection
+    {
+        $filter = [
+            'announcement_id' => $announcement->id,
+            'sale_status_id'  => OrderStatusEnum::AWAITING_CONFIRMATION
+        ];
+
+        return $this->orderRepository->findByFilter($filter);
+    }
+
     public function create(Announcement $announcement, array $data): Order
     {
         $data     = new Fluent($data);

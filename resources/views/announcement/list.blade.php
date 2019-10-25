@@ -11,18 +11,18 @@
         <form class="form-signin form-group" action="{{route('my-announcements')}}" method="get">
             <div class="mb-3">
                 <div class="row">
-                    <div class="col-md-6">
-                        <label for="data_criacao">Data Cadastro</label>
-                        <input name="data_criacao" type="date" class="form-control" id="data_criacao"
-                               value="{{ old('data_criacao') }}">
-                    </div>
-
-                    <div class="col-md-6">
+                    <div class="col-md-6 offset-3">
                         <label for="tipo_retirada">Tipo Retirada</label>
-                        <select name="tipo_retirada" class="form-control">
-                            <option value="">Selecione</option>
-                            <option value="0">Entrega</option>
-                            <option value="1">Local</option>
+                        <select class="form-control" id="tipo_retirada" name="tipo_retirada">
+                            <option value="">Selecione...</option>
+                            @foreach($withdrawTypes as $withdrawType)
+                                @if(isset($filter['tipo_retirada']) and $withdrawType['id'] == $filter['tipo_retirada'])
+                                    <option selected
+                                            value="{{$withdrawType['id']}}">{{$withdrawType['name']}}</option>
+                                @else
+                                    <option value="{{$withdrawType['id']}}">{{$withdrawType['name']}}</option>
+                                @endif
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -60,6 +60,7 @@
                 <th>Tipo de Retirada</th>
                 <th>Data Inicio</th>
                 <th>Data Fim</th>
+                <th>Status</th>
                 <th>Ações</th>
             </tr>
             </thead>
@@ -84,17 +85,14 @@
                                     Opções
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <a href="{{route('form-product', ['id' => $announcement->id])}}">
-                                        <button class="dropdown-item" type="button">Editar</button>
-                                    </a>
                                     <button id="deleteButton" class="dropdown-item" type="button"
-                                            onclick="inativarProduto({{$announcement->id}})">Inativar
+                                            onclick="inativarAnuncio({{$announcement->id}})">Inativar
                                     </button>
                                 </div>
                             </div>
                         </td>
                     @else
-                        <td class="red-color font-weight-bold">{{$announcement->productStatus->name}}</td>
+                        <td class="red-color font-weight-bold">{{$announcement->announcementStatus->name}}</td>
                         <td>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle btn-sm" disabled type="button"

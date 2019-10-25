@@ -30,3 +30,9 @@ Route::group([
     Route::put('/confirmar/{id}', 'OrderController@confirmOrder');
     Route::put('/finalizar/{id}', 'OrderController@finalizeOrder');
 });
+
+Route::group([
+    'prefix'    => 'anuncio',
+], function () {
+    Route::delete('/{id}', 'AnnouncementController@delete');
+});

@@ -40,8 +40,9 @@ class AnnouncementService
     {
         $data = new Fluent($filter);
 
-        $attributes['created_at'] = $data->{'created_at'};
-        $attributes['user_id']    = Auth::user()['id'];
+        $attributes['local_withdraw'] = $data->{'tipo_retirada'};
+        $attributes['created_at']     = $data->{'created_at'};
+        $attributes['user_id']        = Auth::user()['id'];
 
         return $this->announcementRepository->findAll(removeNullItems($attributes));
     }
@@ -88,8 +89,17 @@ class AnnouncementService
 
     public function updateBalance(Announcement $announcement, Order $order)
     {
-        $attributes   = [
+        $attributes = [
             'current_quantity' => $announcement->current_quantity + $order->quantity
+        ];
+
+        return $this->announcementRepository->update($announcement, $attributes);
+    }
+
+    public function inactive(Announcement $announcement): Announcement
+    {
+        $attributes = [
+            'announcement_status_id' => AnnouncementStatusEnum::INACTIVE
         ];
 
         return $this->announcementRepository->update($announcement, $attributes);

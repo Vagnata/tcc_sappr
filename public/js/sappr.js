@@ -37,7 +37,7 @@ function inativarProduto(idProduto) {
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Ok!'
                     }).then(() => {
-                       location.reload();
+                        location.reload();
                     });
                     return;
                 }
@@ -83,5 +83,46 @@ function cancelarPedido(idPedido) {
             });
         }
     })
-
 }
+
+
+function inativarAnuncio(idAnuncio) {
+    Swal.fire({
+        title: 'Deseja continuar?',
+        text: "Este anúncio será inativado!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim!'
+    }).then((result) => {
+        if (result.value) {
+            makeRequest(BASE_URL + 'anuncio/' + idAnuncio, null, 'DELETE').then(function (data, httpRequest) {
+                if (httpRequest === 'success') {
+                    if (data.id) {
+                        Swal.fire({
+                            title: 'Inativado!',
+                            text: 'Anúncio foi inativado com sucesso.',
+                            type: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok!'
+                        }).then(() => {
+                            location.reload();
+                        });
+                        return;
+                    }
+
+                    if (!data.data) {
+                        Swal.fire(
+                            'Que pena :(',
+                            data.message,
+                            'warning'
+                        );
+                    }
+                }
+
+            });
+        }
+    })
+}
+
