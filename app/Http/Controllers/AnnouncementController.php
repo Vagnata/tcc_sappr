@@ -51,10 +51,6 @@ class AnnouncementController extends Controller
                 'withdrawTypes' => WithdrawTypeEnum::getToForm()
             ];
 
-            if ($request->route('id')) {
-                return 'edição';
-            }
-
             return view('announcement.form', $return);
         }
 
@@ -74,8 +70,12 @@ class AnnouncementController extends Controller
             }
 
             $announcements = $this->announcementService->findByUser($request->all());
+            $withdrawTypes = WithdrawTypeEnum::getToForm();
 
-            return view('announcement.list')->with('announcements', $announcements);
+            return view('announcement.list')->with([
+                'announcements' => $announcements,
+                'withdrawTypes' => $withdrawTypes
+            ]);
         }
 
         return view('user.login')->with('message', trans('message.login.unauthorized'));

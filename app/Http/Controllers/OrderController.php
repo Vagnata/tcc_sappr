@@ -37,7 +37,7 @@ class OrderController extends Controller
     {
         if (Auth::check()) {
             $announcement = $this->announcementService->findBy(['id' => $request->get('announcement_id')])->first();
-            $order = $this->orderService->create($announcement, $request->all());
+            $order        = $this->orderService->create($announcement, $request->all());
             $this->announcementService->editCurrentQuantity($announcement, $order);
 
             $orders      = $this->orderService->findMyOrders();
@@ -78,6 +78,39 @@ class OrderController extends Controller
 
             $order = $this->orderService->cancel($order);
             $this->announcementService->updateBalance($announcement, $order);
+
+            $this->response = [
+                'id' => $order->id
+            ];
+        } catch (NotFoundHttpException $exception) {
+            return Response::json(['data' => 'Pedido não encontrado ou inativo'], HttpResponse::HTTP_NOT_FOUND);
+        }
+
+        return Response::json($this->response, HttpResponse::HTTP_OK);
+    }
+
+    public function receivedOrders(Request $request)
+    {
+        if (Auth::check()) {
+
+            $orders      = $this->orderService->findMyReceivedOrders($request->all());
+            $orderStatus = OrderStatusEnum::toForm();
+
+            return view('order.received_orders_list')->with([
+                'orders'      => $orders,
+                'orderStatus' => $orderStatus,
+                'filter'      => $request->all()
+            ]);
+        }
+
+        return view('user.login')->with('message', trans('message.login.unauthorized'));
+    }
+
+    public function confirmOrder($id)
+    {
+        try {
+            $order = $this->orderService->findByFilter(['id' => $id])->first();
+            $order = $this->orderService->confirm($order);
 
             $this->response = [
                 'id' => $order->id

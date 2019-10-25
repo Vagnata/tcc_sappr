@@ -79,4 +79,9 @@ class Order extends Model
     {
         return $this->sale_status_id == OrderStatusEnum::FINALIZED;
     }
+
+    public function withdrawType(): string
+    {
+        return $this->local_withdraw ? 'Entrega' : 'Retirada no Local';
+    }
 }

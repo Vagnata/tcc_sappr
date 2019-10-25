@@ -85,6 +85,41 @@ function cancelarPedido(idPedido) {
     })
 }
 
+function confirmarPedido(idPedido) {
+    Swal.fire({
+        title: 'Deseja confirmar esse pedido?',
+        text: "",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim!',
+        cancelButtonText: 'Não'
+    }).then((result) => {
+        if (result.value) {
+            makeRequest(BASE_URL + 'pedido/confirmar/' + idPedido, null, 'PUT').then(function (data, httpRequest) {
+                if (httpRequest === 'success') {
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: 'Pedido confirmado com sucesso. Entre em contato com o cliente para finalização do processo',
+                        type: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok!'
+                    }).then(() => {
+                        location.reload();
+                    });
+                    return;
+                }
+                Swal.fire(
+                    'Atenção',
+                    'Pedido já confirmado.',
+                    'warning'
+                );
+            });
+        }
+    })
+}
+
 
 function inativarAnuncio(idAnuncio) {
     Swal.fire({

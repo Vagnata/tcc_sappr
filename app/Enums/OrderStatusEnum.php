@@ -25,10 +25,6 @@ final class OrderStatusEnum extends Enum
             [
                 'id' => self::CANCELLED,
                 'name' => 'Cancelado'
-            ],
-            [
-                'id' => self::FINALIZED,
-                'name' => 'Finalizado'
             ]
         ];
     }

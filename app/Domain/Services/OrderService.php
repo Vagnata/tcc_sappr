@@ -75,4 +75,25 @@ class OrderService
         return $this->orderRepository->update($order, $attributes);
     }
 
+    public function confirm(Order $order): Order
+    {
+        $attributes = [
+            'sale_status_id' => OrderStatusEnum::CONFIRMED
+        ];
+
+        return $this->orderRepository->update($order, $attributes);
+    }
+
+    public function findMyReceivedOrders(array $filter): Collection
+    {
+        $filter = new Fluent($filter);
+
+        $attributes = [
+            'user_id'        => Auth::id(),
+            'sale_status_id' => $filter->{'sale_status_id'},
+            'created_at'     => $filter->{'created_at'}
+        ];
+
+        return $this->orderRepository->findReceivedOrders(removeNullItems($attributes));
+    }
 }

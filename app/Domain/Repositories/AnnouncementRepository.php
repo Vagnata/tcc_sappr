@@ -38,7 +38,7 @@ class AnnouncementRepository extends RepositoryAbstract
 
     private function appendDateIntervalFilter(Builder $builder): Builder
     {
-        $now = Carbon::today()->setTimezone('America/Sao_paulo')->toDateTimeString();
+        $now = Carbon::today()->toDateTimeString();
 
         return $builder->whereRaw("'$now' between begin_date AND end_date");
     }
