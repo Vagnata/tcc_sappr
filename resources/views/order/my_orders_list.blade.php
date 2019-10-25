@@ -46,7 +46,7 @@
     @if(isset($newOrder))
         <div class="row">
             <div class="col-md-4 offset-4">
-                <div class="alert alert-primary" role="alert">
+                <div class="alert alert-primary text-center" role="alert">
                     Seu pedido for realizado com sucesso, aguarde a confirmação!
                 </div>
             </div>
@@ -70,8 +70,8 @@
                 <th>Telefone</th>
                 <th>Endereço</th>
                 <th>Produto</th>
-                <th>Preço</th>
                 <th>Quantidade</th>
+                <th>Preço</th>
                 <th>Tipo de Retirada</th>
                 <th>Data Reserva</th>
                 <th>Status</th>
@@ -83,11 +83,11 @@
                 <tr>
                     <td>{{$order->id}}</td>
                     <td>{{$order->announcement->user->name}}</td>
-                    <td>{{$order->phone}}</td>
-                    <td>{{$order->address}}</td>
+                    <td>{{$order->announcement->phone}}</td>
+                    <td>{{$order->announcement->address}}</td>
                     <td>{{$order->announcement->product->name}}</td>
-                    <td>{{$order->getFormattedPriceAttribute()}}</td>
                     <td>{{$order->quantity}}</td>
+                    <td>{{$order->getFormattedPriceAttribute()}}</td>
                     <td>{{$order->announcement->withdrawType()}}</td>
                     <td>{{$order->getCreatedDateFormatted()}}</td>
                     @if ($order->isAwaitingConfirmation())

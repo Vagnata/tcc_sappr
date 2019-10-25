@@ -66,7 +66,7 @@ function cancelarPedido(idPedido) {
                 if (httpRequest === 'success') {
                     Swal.fire({
                         title: 'Inativado!',
-                        text: 'Produto foi inativado com sucesso.',
+                        text: 'Pedido foi cancelado com sucesso.',
                         type: 'success',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Ok!'

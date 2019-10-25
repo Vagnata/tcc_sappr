@@ -9,7 +9,8 @@
 
         <div class="row">
             <div class="col-md-12">
-                <form class="form-signin" action="{{ route('store-announcement') }}" method="post" enctype="multipart/form-data">
+                <form class="form-signin" action="{{ route('store-announcement') }}" method="post"
+                      enctype="multipart/form-data">
                     {!! csrf_field() !!}
 
                     <div class="mb-3">
@@ -23,16 +24,19 @@
 
                             <div class="col-md-4 form-group">
                                 <label for="product_id">Produto</label>
-                                <select class="form-control" id="product_id" name="product_id">
-                                    @foreach($products as $product)
-                                        @if(isset($announcement) and $announcement['product_id'] == $product['id'])
-                                            <option selected
-                                                    value="{{$product['id']}}">{{$product['name'] . "($product->unityType->name)"}}</option>
-                                        @else
-                                            <option
-                                                value="{{$product['id']}}">{{$product['name'] . '(' . ($product->unityType->name) . ')'}}</option>
-                                        @endif
-                                    @endforeach
+                                <select class="form-control" id="product_id" name="product_id" required>
+                                    <option value="">Selecione</option>
+                                    @if(isset($products) && !empty($products))
+                                        @foreach($products as $product)
+                                            @if(isset($announcement) and $announcement['product_id'] == $product['id'])
+                                                <option selected
+                                                        value="{{$product['id']}}">{{$product['name'] . "($product->unityType->name)"}}</option>
+                                            @else
+                                                <option
+                                                    value="{{$product['id']}}">{{$product['name'] . '(' . ($product->unityType->name) . ')'}}</option>
+                                            @endif
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
 
@@ -40,7 +44,7 @@
                                 <label for="local_withdraw">Tipo de Retirada</label>
                                 <select class="form-control" id="local_withdraw" name="local_withdraw">
                                     @foreach($withdrawTypes as $withdrawType)
-                                        @if(isset($withdrawType) and $withdrawType['id'] == $product['local_withdraw'])
+                                        @if(isset($withdrawType) && isset($product) && $withdrawType['id'] == $product['local_withdraw'])
                                             <option selected
                                                     value="{{$withdrawType['id']}}">{{$withdrawType['name']}}</option>
                                         @else

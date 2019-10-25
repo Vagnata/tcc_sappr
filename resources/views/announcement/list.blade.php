@@ -55,7 +55,8 @@
                 <th>Código</th>
                 <th>Descrição</th>
                 <th>Preço</th>
-                <th>Quantidade</th>
+                <th>Qtd. Inicial</th>
+                <th>Qtd. Atual</th>
                 <th>Produto</th>
                 <th>Tipo de Retirada</th>
                 <th>Data Inicio</th>
@@ -71,6 +72,7 @@
                     <td>{{$announcement->name}}</td>
                     <td>{{$announcement->getFormattedPriceAttribute()}}</td>
                     <td>{{$announcement->quantity}}</td>
+                    <td>{{$announcement->current_quantity}}</td>
                     <td>{{$announcement->product->name}}</td>
                     <td>{{$announcement->withdrawType()}}</td>
                     <td>{{$announcement->getBeginDateFormatted()}}</td>
