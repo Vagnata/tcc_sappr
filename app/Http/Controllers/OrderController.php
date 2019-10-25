@@ -36,8 +36,7 @@ class OrderController extends Controller
     public function storeOrder(Request $request)
     {
         if (Auth::check()) {
-            $announcement = $this->announcementService->findBy(['id' => $request->get('id')])->first();
-
+            $announcement = $this->announcementService->findBy(['id' => $request->get('announcement_id')])->first();
             $order = $this->orderService->create($announcement, $request->all());
             $this->announcementService->editCurrentQuantity($announcement, $order);
 
